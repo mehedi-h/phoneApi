@@ -23,7 +23,7 @@ const displayPhone = (phones,isShowAll)  => {
     }
 
     phones.forEach(phone => {
-        console.log(phone)
+        // console.log(phone)
         const phoneCard = document.createElement('div')
         phoneCard.classList = `card bg-slate-100 shadow-xl`
 
@@ -49,8 +49,32 @@ const displayPhone = (phones,isShowAll)  => {
 const showDetails = async (id) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`)
     const data = await res.json()
-    const phone = data.data
-    console.log(phone)
+    const phone = data.data;
+    showDetailsModal(phone)
+    console.log(data)
+}
+//--------------- Search Button Function ------------------------>
+const showDetailsModal = (phone) => {
+    const phoneNameDetails = document.getElementById('phone-name-details');
+    phoneNameDetails.innerText = phone.name;
+
+    const showDetailsContainer = document.getElementById('show_details_container')
+    showDetailsContainer.innerHTML = `
+        <img src="${phone.image}" alt="${phone.phone_name}" class="rounded-xl mx-auto" />
+        <p class='text-lg pt-2'><span class="font-semibold">Brand : </span>${phone?.brand}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Storage : </span>${phone?.mainFeatures?.storage}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Chipset : </span>${phone?.mainFeatures?.chipSet}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Memory : </span>${phone?.mainFeatures?.memory}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Display Size : </span>${phone?.mainFeatures?.displaySize}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">WLAN : </span>${phone?.others?.WLAN}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">GPS : </span>${phone?.others?.GPS}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Bluetooth : </span>${phone?.others?.Bluetooth}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">USB : </span>${phone?.others?.USB}</p>
+        <p class='text-lg pt-2'><span class="font-semibold">Release Date : </span>${phone?.releaseDate}</p>
+    `
+
+    show_details_modal.showModal()
+    
 }
 
 //--------------- Search Button Function ------------------------>
@@ -61,6 +85,8 @@ const searchBtn = (isShowAll) => {
     toggleSpinner(true);
     loadPhones(searchInput, isShowAll);
 }
+
+
 //--------------- Show All Button Function ------------------------>
 const showAllBtn = () => {
     searchBtn(true)
