@@ -20,12 +20,15 @@
             <button onclick="searchBtn()" class="btn btn-outline btn-primary">Search</button>
         </section>
 
-        <!----------------------- Search Section ---------------------->
-        <section class="container mx-auto lg:mt-20">
+        <!----------------------- Search Result Section ---------------------->
+        <section class="container mx-auto lg:my-20">
+            <div id="loading-bar" class="text-center hidden">
+                <span class="loading loading-bars text-lime-400 loading-lg"></span>
+            </div>
             <div id="phone-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             </div>
             <!----------------------- Show All Button ---------------------->
-            <div id="show-btn" class="hidden">
+            <div id="show-btn" class="hidden text-center my-3 md:my-6 lg:my-10">
                 <button onclick="showAllBtn()" class="btn btn-outline btn-primary">Show All</button>
             </div>
             

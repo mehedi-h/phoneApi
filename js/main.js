@@ -1,23 +1,26 @@
 
-const loadPhones = async (searchText) => {
+const loadPhones = async (searchText, isShowAll) => {
     const res = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText}`)
     const data = await res.json()
     const phones = data.data
     
-    displayPhone(phones)
+    displayPhone(phones, isShowAll)
 }
 
-const displayPhone = phones => {
+const displayPhone = (phones,isShowAll)  => {
     const phoneContainer = document.getElementById('phone-container')
     phoneContainer.textContent = '';
 
     const showBtn = document.getElementById('show-btn')
-    if (phones.length > 9) {
+    if (phones.length > 9 && !isShowAll) {
         showBtn.classList.remove('hidden')
     } else {
         showBtn.classList.add('hidden')
     }
-    phones = phones.slice(0, 9)
+    
+    if (!isShowAll) {
+        phones = phones.slice(0, 9)
+    }
 
     phones.forEach(phone => {
         console.log(phone)
@@ -38,20 +41,30 @@ const displayPhone = phones => {
         `
         phoneContainer.appendChild(phoneCard)
     });
+
+    toggleSpinner(false)
 }
 
-const searchBtn = () => {
+const searchBtn = (isShowAll) => {
     const searchField = document.getElementById('search-field')
     const searchInput = searchField.value;
     // console.log(searchInput)
-    loadPhones(searchInput);
+    toggleSpinner(true);
+    loadPhones(searchInput, isShowAll);
 }
 
 const showAllBtn = () => {
-    const searchField = document.getElementById('search-field')
-    const searchInput = searchField.value;
-    // console.log(searchInput)
-    loadPhones(searchInput);
+    
+    searchBtn(true)
 }
 
-loadPhones()
+const toggleSpinner = (isLoading) => {
+    const loadingBar = document.getElementById('loading-bar');
+    if (isLoading) {
+        loadingBar.classList.remove('hidden');
+    } else {
+        loadingBar.classList.add('hidden');
+    }
+}
+
+// loadPhones()
